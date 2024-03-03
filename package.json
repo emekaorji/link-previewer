@@ -1,32 +1,35 @@
 {
-    "name": "awesome-vscode-extension-boilerplate",
-    "displayName": "Awesome VSCode Extension Boilerplate",
-    "version": "0.0.29",
+    "name": "link-preview",
+    "displayName": "Link Preview",
+    "version": "0.1.0",
     "description": "An awesome vscode extension boilerplate",
-    "publisher": "YuTengjing",
+    "publisher": "Emeka Orji",
     "private": true,
     "preview": true,
     "author": {
-        "name": "YuTengjing",
-        "email": "ytj2713151713@gmail.com",
-        "url": "https://github.com/tjx666"
+        "name": "Emeka Orji",
+        "email": "emekapraiseo@gmail.com",
+        "url": "https://github.com/emekaorji"
     },
     "license": "SEE LICENSE IN LICENSE",
-    "homepage": "https://github.com/tjx666/awesome-vscode-extension-boilerplate/blob/master/README.md",
+    "homepage": "https://github.com/emekaorji/image-link-preview/blob/main/README.md",
     "repository": {
         "type": "git",
-        "url": "https://github.com/tjx666/awesome-vscode-extension-boilerplate"
+        "url": "https://github.com/emekaorji/image-link-preview"
     },
     "bugs": {
-        "url": "https://github.com/tjx666/awesome-vscode-extension-boilerplate/issues",
-        "email": "ytj2713151713@gmail.com"
+        "url": "https://github.com/emekaorji/image-link-preview/issues",
+        "email": "emekapraiseo@gmail.com"
     },
     "keywords": [
-        "boilerplate",
-        "template"
+        "link",
+        "preview",
+        "preview images",
+        "image-link"
     ],
     "categories": [
-        "Other"
+        "Other",
+        "Visualization"
     ],
     "main": "./out/src/extension.js",
     "icon": "assets/logo.png",
@@ -37,25 +40,24 @@
         {
             "url": "https://img.shields.io/badge/PRs-welcome-brightgreen.svg",
             "description": "PRs Welcome",
-            "href": "https://github.com/tjx666/awesome-vscode-extension-boilerplate/fork"
+            "href": "https://github.com/emekaorji/image-link-preview/fork"
         }
     ],
     "activationEvents": [
         "*"
     ],
     "contributes": {
-        "languages": [
-            {
-                "id": "*",
-                "aliases": [
-                    "*"
-                ],
-                "extensions": [
-                    ".*"
-                ]
+        "configuration": {
+            "title": "Link Preview",
+            "properties": {
+                "linkpreview.maxHeight": {
+                    "default": 300,
+                    "scope": "resource",
+                    "description": "The maximum height of the preview",
+                    "type": "number"
+                }
             }
-        ],
-        "hoverProvider": true
+        }
     },
     "eslintConfig": {
         "extends": "@yutengjing/eslint-config-typescript",
