@@ -21,8 +21,11 @@ export function activate(context: vscode.ExtensionContext) {
 
                 let markdownString: vscode.MarkdownString | undefined;
                 if (linkData.type === 'image') {
+                    const maxHeight = vscode.workspace
+                        .getConfiguration('linkpreview')
+                        .get('maxHeight', 300);
                     markdownString = new vscode.MarkdownString(
-                        `<img alt="${link}" src="${linkData.data}" height="300" />`,
+                        `<img alt="${link}" src="${linkData.data}" height="${maxHeight}" />`,
                     );
                     markdownString.supportHtml = true;
                     // } else if (linkData.type === 'webpage') {
