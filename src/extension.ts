@@ -28,8 +28,8 @@ export function activate(context: vscode.ExtensionContext) {
                         `<img alt="${link}" src="${linkData.data}" height="${maxHeight}" />`,
                     );
                     markdownString.supportHtml = true;
-                    // } else if (linkData.type === 'webpage') {
-                    // markdownString = new vscode.MarkdownString(`# ${linkData.data.title}`);
+                } else if (linkData.type === 'webpage') {
+                    markdownString = new vscode.MarkdownString(`# ${linkData.data.title}`);
                 }
 
                 if (!markdownString) return null;

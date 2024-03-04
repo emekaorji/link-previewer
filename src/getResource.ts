@@ -1,18 +1,22 @@
-// interface Metadata {
-//     title: string;
-//     description: string;
-//     domain: string;
-//     image: string;
-// }
+import type { CheerioAPI } from 'cheerio';
+import { load } from 'cheerio';
 
-interface Resource {
-    type: 'image';
-    data: string;
+interface Metadata {
+    title: string;
+    description: string;
+    domain: string;
+    image: string;
 }
-// | {
-//       type: 'webpage';
-//       data: Metadata;
-//   };
+
+type Resource =
+    | {
+          type: 'image';
+          data: string;
+      }
+    | {
+          type: 'webpage';
+          data: Metadata;
+      };
 
 export default async function getResource(url: string): Promise<Resource | null> {
     try {
@@ -29,14 +33,14 @@ export default async function getResource(url: string): Promise<Resource | null>
                 type: 'image',
                 data: url,
             };
-            // } else if (contentType.startsWith('text/html')) {
-            //     const metadata = await getMetadata(url);
-            //     if (!metadata) throw new Error('Could not find metadata');
+        } else if (contentType.startsWith('text/html')) {
+            const metadata = await getMetadata(url);
+            if (!metadata) throw new Error('Could not find metadata');
 
-            //     return {
-            //         type: 'webpage',
-            //         data: metadata,
-            //     };
+            return {
+                type: 'webpage',
+                data: metadata,
+            };
         } else {
             throw new Error(`Unknown content type: ${contentType}`);
         }
@@ -46,7 +50,36 @@ export default async function getResource(url: string): Promise<Resource | null>
     }
 }
 
-// async function getMetadata(url: string): Promise<Metadata | null> {
-//     console.log(url);
-//     return null;
-// }
+async function getMetadata(url: string): Promise<Metadata | null> {
+    const response = await fetch(url);
+    const result = await response.text();
+    const $ = load(result);
+    const title = getTitle($);
+    return {
+        title,
+        description: '',
+        domain: '',
+        image: '',
+    };
+}
+
+function getTitle($: CheerioAPI) {
+    const ogTitle = $('meta[property="og:title"]')[0];
+    if (ogTitle != null) {
+        console.log($(ogTitle).attr('content'));
+        return $(ogTitle).attr('content') || '';
+    }
+    const twitterTitle = $('meta[name="twitter:title"]')[0];
+    if (twitterTitle != null) {
+        return $(twitterTitle).attr('content') || '';
+    }
+    const h1 = $('h1')[0];
+    if (h1 != null) {
+        return $(h1).text();
+    }
+    const h2 = $('h2')[0];
+    if (h2 != null) {
+        return $(h2).text();
+    }
+    return '';
+}
