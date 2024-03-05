@@ -19,22 +19,23 @@ export function activate(context: vscode.ExtensionContext) {
                 console.log('linkData :::', linkData);
                 if (!linkData) return null;
 
+                const maxHeight = vscode.workspace
+                    .getConfiguration('linkpreview')
+                    .get('maxHeight', 300);
+
                 let markdownString: vscode.MarkdownString | undefined;
                 if (linkData.type === 'image') {
-                    const maxHeight = vscode.workspace
-                        .getConfiguration('linkpreview')
-                        .get('maxHeight', 300);
                     markdownString = new vscode.MarkdownString(
                         `<img alt="${link}" src="${linkData.data}" height="${maxHeight}" />`,
                     );
-                    markdownString.supportHtml = true;
-                } else if (linkData.type === 'webpage') {
+                } else if (linkData.type === 'webpage' && linkData.data.title) {
                     markdownString = new vscode.MarkdownString(
-                        `### ${linkData.data.title}\n\n${linkData.data.description}`,
+                        `### ${linkData.data.title}\n\n${linkData.data.description}\n\n${linkData.data.image ? `<img alt="${link}" src="${linkData.data.image}" height="${maxHeight}" />` : ''}`,
                     );
                 }
 
                 if (!markdownString) return null;
+                markdownString.supportHtml = true;
                 return new vscode.Hover([markdownString], range);
             }
 

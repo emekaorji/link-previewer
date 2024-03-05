@@ -5,7 +5,7 @@ interface Metadata {
     title: string;
     description: string;
     domain: string;
-    image: string;
+    image: string | null;
 }
 
 type Resource =
@@ -58,12 +58,13 @@ async function getMetadata(url: string): Promise<Metadata | null> {
     const title = getTitle($);
     const description = getDescription($);
     const domain = getDomainName($, url);
+    const image = await getImage($);
 
     return {
         title,
         description,
         domain,
-        image: '',
+        image,
     };
 }
 
@@ -141,4 +142,41 @@ function getDomainName($: CheerioAPI, uri: string) {
     return domainName
         ? new URL(domainName).hostname.replace('www.', '')
         : new URL(uri).hostname.replace('www.', '');
+}
+
+async function isValidImage(url: string | undefined): Promise<boolean> {
+    if (!url) return false;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not `ok`');
+        }
+
+        const contentType = response.headers.get('content-type');
+        if (!contentType) throw new Error('Content type header is missing');
+
+        return /image\/*/.test(contentType);
+    } catch {
+        return false;
+    }
+}
+
+async function getImage($: CheerioAPI) {
+    const ogImg = $('meta[property="og:image"]')[0];
+    if (ogImg && (await isValidImage($(ogImg).attr('content')))) {
+        return $(ogImg).attr('content') ?? null;
+    }
+
+    const imgRelLink = $('link[rel="image_src"]')[0];
+    if (imgRelLink && (await isValidImage($(imgRelLink).attr('href')))) {
+        return $(imgRelLink).attr('href') ?? null;
+    }
+
+    const twitterImg = $('meta[name="twitter:image"]')[0];
+    if (twitterImg && (await isValidImage($(twitterImg).attr('content')))) {
+        return $(twitterImg).attr('content') ?? null;
+    }
+
+    return null;
 }
