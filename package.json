@@ -1,6 +1,6 @@
 {
-    "name": "link-preview",
-    "displayName": "Link Preview",
+    "name": "link-previewer",
+    "displayName": "Link Previewer",
     "version": "0.1.0",
     "description": "An awesome vscode extension boilerplate",
     "publisher": "Emeka Orji",
@@ -12,13 +12,13 @@
         "url": "https://github.com/emekaorji"
     },
     "license": "SEE LICENSE IN LICENSE",
-    "homepage": "https://github.com/emekaorji/image-link-preview/blob/main/README.md",
+    "homepage": "https://github.com/emekaorji/link-preview/blob/main/README.md",
     "repository": {
         "type": "git",
-        "url": "https://github.com/emekaorji/image-link-preview"
+        "url": "https://github.com/emekaorji/link-preview"
     },
     "bugs": {
-        "url": "https://github.com/emekaorji/image-link-preview/issues",
+        "url": "https://github.com/emekaorji/link-preview/issues",
         "email": "emekapraiseo@gmail.com"
     },
     "keywords": [
@@ -40,7 +40,7 @@
         {
             "url": "https://img.shields.io/badge/PRs-welcome-brightgreen.svg",
             "description": "PRs Welcome",
-            "href": "https://github.com/emekaorji/image-link-preview/fork"
+            "href": "https://github.com/emekaorji/link-preview/fork"
         }
     ],
     "activationEvents": [
