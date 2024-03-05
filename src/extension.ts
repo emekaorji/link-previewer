@@ -29,7 +29,9 @@ export function activate(context: vscode.ExtensionContext) {
                     );
                     markdownString.supportHtml = true;
                 } else if (linkData.type === 'webpage') {
-                    markdownString = new vscode.MarkdownString(`# ${linkData.data.title}`);
+                    markdownString = new vscode.MarkdownString(
+                        `### ${linkData.data.title}\n\n${linkData.data.description}`,
+                    );
                 }
 
                 if (!markdownString) return null;
