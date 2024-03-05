@@ -57,7 +57,7 @@ The extension is deactivated automatically when you close Visual Studio Code or 
 
 ### Feedback and Contributions 👂
 
-In case of any errors or issues, refer to the [Troubleshooting](#Troubleshooting) section of this docs. If the error persists, please create an issue [here](https://github.com/emekaorji/openssl-keygen/issues/new?title=).
+In case of any errors or issues, refer to the [Troubleshooting](#Troubleshooting) section of this docs. If the error persists, please create an issue [here](https://github.com/emekaorji/link-previewer/issues/new?title=).
 
 Below is a list of possible feature requests
 
