@@ -27,7 +27,6 @@ export default async function getResource(url: string): Promise<Resource | null>
 
         const contentType = response.headers.get('content-type');
         if (!contentType) throw new Error('Content type header is missing');
-        console.log('contentType :::', contentType);
         if (contentType.startsWith('image/')) {
             return {
                 type: 'image',
@@ -44,8 +43,7 @@ export default async function getResource(url: string): Promise<Resource | null>
         } else {
             throw new Error(`Unknown content type: ${contentType}`);
         }
-    } catch (error) {
-        console.warn('Error checking content type:', error);
+    } catch {
         return null;
     }
 }
@@ -71,7 +69,6 @@ async function getMetadata(url: string): Promise<Metadata | null> {
 function getTitle($: CheerioAPI) {
     const ogTitle = $('meta[property="og:title"]')[0];
     if (ogTitle != null) {
-        console.log($(ogTitle).attr('content'));
         return $(ogTitle).attr('content') || '';
     }
 
@@ -136,8 +133,6 @@ function getDomainName($: CheerioAPI, uri: string) {
     if (ogUrlMeta != null) {
         domainName = $(ogUrlMeta).text();
     }
-
-    console.log('DOMAIN NAME :::', domainName);
 
     return domainName
         ? new URL(domainName).hostname.replace('www.', '')

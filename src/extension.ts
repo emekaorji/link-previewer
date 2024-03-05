@@ -3,20 +3,16 @@ import * as vscode from 'vscode';
 import getResource from './getResource';
 
 export function activate(context: vscode.ExtensionContext) {
-    console.log('AWESOMENESS 111111!!!!');
-    // Register a hover provider
     const disposable = vscode.languages.registerHoverProvider('*', {
         async provideHover(document, position) {
-            console.log('AWESOMENESS 222222!!!!');
-
             const range = document.getWordRangeAtPosition(
                 position,
-                /((http|https):\/\/[^\s"'`)]+)/,
+                /((http|https):\/\/[^\s"'`).]+(?:\.[^\s"'`).]+)*)/,
             );
             if (range) {
                 const link = document.getText(range);
+
                 const linkData = await getResource(link);
-                console.log('linkData :::', linkData);
                 if (!linkData) return null;
 
                 const maxHeight = vscode.workspace
@@ -30,7 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
                     );
                 } else if (linkData.type === 'webpage' && linkData.data.title) {
                     markdownString = new vscode.MarkdownString(
-                        `### ${linkData.data.title}\n\n${linkData.data.description}\n\n${linkData.data.image ? `<img alt="${link}" src="${linkData.data.image}" height="${maxHeight}" />` : ''}`,
+                        `### ${linkData.data.title}\n\n${linkData.data.description}\n\n${linkData.data.image ? `<img alt="${linkData.data.domain}" src="${linkData.data.image}" height="${maxHeight}" />` : ''}`,
                     );
                 }
 
