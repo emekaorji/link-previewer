@@ -32,7 +32,7 @@ This VSCode extension allow you to preview a webpage metadata (title, descriptio
 1. Open a text editor.
 1. Hover a valid URL, you should see a popover containing the metadata of the webpage, including a cover image.
 1. For image URLs, you should see only the image and nothing else.
-   <div style="border-radius: 1em; overflow: hidden;"><img alt="Via Command Palette" src="" /></div>
+   <div style="border-radius: 1em; overflow: hidden;"><img alt="Image URL Demo" src="" /></div>
 
 ### Configuration
 
