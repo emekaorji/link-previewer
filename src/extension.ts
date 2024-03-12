@@ -13,7 +13,14 @@ export function activate(context: vscode.ExtensionContext) {
                 const link = document.getText(range);
 
                 const linkData = await getResource(link);
-                if (!linkData) return null;
+                if (!linkData) {
+                    const isBrokenLink = new vscode.MarkdownString(
+                        `This URL is broken, or the link is not a valid image or webpage.`,
+                        true,
+                    );
+                    isBrokenLink.supportHtml = true;
+                    return new vscode.Hover(isBrokenLink, range);
+                }
 
                 const maxHeight = vscode.workspace
                     .getConfiguration('linkpreview')
